@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
                 )}
               </div>
               <span className="text-2xl font-bold text-primary">
-                {organization?.name || 'PetCare'}
+                {organization?.name}
               </span>
             </a>
           </Link>
