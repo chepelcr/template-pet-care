@@ -4,7 +4,7 @@ import ProductCard, { Product } from '../components/ProductCard';
 import { useProducts } from '@/hooks/useContent';
 
 const ServicesPage: React.FC = () => {
-  const { data: services = [], isLoading } = useProducts({ isService: true });
+  const { data: services = [], isLoading } = useProducts({ type: 'service' });
   const [searchQuery, setSearchQuery] = React.useState('');
   const [favorites, setFavorites] = React.useState<Set<string>>(new Set());
 
