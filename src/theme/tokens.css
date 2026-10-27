@@ -1,0 +1,64 @@
+/*
+ * Pet Care design tokens — three layers (see DESIGN.md).
+ * 1 primitives → 2 semantic roles → 3 component tokens.
+ * `--brand*` and `--font-display` are set at run time from the store's branding.
+ */
+:root {
+  /* 1 · Primitives — Placa */
+  --pc-apricot: #F4A04B;
+  --pc-apricot-soft: #FCE3C6;
+  --pc-teal: #0E5A5C;
+  --pc-teal-lift: #12706F;
+  --pc-teal-soft: #D7E8E6;
+  --pc-silver: #C9CED3;
+  --pc-silver-light: #E6E9EC;
+  --pc-kibble: #8A5A3B;
+  --pc-rust: #9C4A12;
+  --pc-ink: #1F2A2B;
+  --pc-ink-soft: #53605F;
+  --pc-mist: #F2F4F5;
+  --pc-white: #FFFFFF;
+
+  /* 2 · Semantic */
+  --surface: var(--pc-mist);
+  --surface-quiet: var(--pc-silver-light);
+  --surface-raised: var(--pc-white);
+  --surface-deep: var(--pc-teal);
+  --surface-deep-raised: var(--pc-teal-lift);
+  --ink: var(--pc-ink);
+  --ink-soft: var(--pc-ink-soft);
+  --ink-on-deep: var(--pc-white);
+  --ink-on-deep-soft: var(--pc-teal-soft);
+  --heading: var(--pc-ink);
+  --rule: color-mix(in srgb, var(--pc-ink) 13%, transparent);
+  --rule-on-deep: color-mix(in srgb, var(--pc-white) 22%, transparent);
+  --accent: var(--brand, var(--pc-teal));
+  --accent-ink: var(--brand-ink, var(--pc-white));
+  --accent-text: var(--brand-text, var(--pc-teal));
+  --accent-2: var(--brand-2, var(--pc-apricot));
+  --accent-2-ink: var(--brand-2-ink, var(--pc-ink));
+  --offer: var(--pc-rust);
+  --danger: var(--pc-rust);
+  --success: var(--pc-teal);
+  --focus: var(--pc-teal);
+  --focus-on-deep: var(--pc-apricot);
+  --scrim: rgb(31 42 43 / 0.55);
+
+  /* 3 · Component */
+  --font-display: "Baloo 2", "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-text: "Nunito Sans", "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-frame: 1.75rem;
+  --radius-frame-sm: 1.125rem;
+  --radius-pill: 999px;
+  --tag-metal: linear-gradient(145deg, #EEF1F3 0%, #C9CED3 55%, #B4BBC1 100%);
+  --tag-edge: #9AA2A9;
+  --shadow-soft: 0 1px 2px rgb(31 42 43 / 0.08), 0 14px 28px -18px rgb(31 42 43 / 0.4);
+  --shadow-lift: 0 2px 4px rgb(31 42 43 / 0.1), 0 24px 40px -20px rgb(31 42 43 / 0.45);
+  --tap: 2.75rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 76rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --dur-enter: 260ms;
+  --dur-exit: 170ms;
+}
