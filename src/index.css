@@ -1,115 +1,299 @@
+@import './core/core.css';
+@import './theme/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Primary Colors - Friendly Blue */
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary Colors - Playful Orange */
-    --secondary: 20 91% 54%;
-    --secondary-foreground: 0 0% 100%;
-
-    /* Accent Colors - Grass Green */
-    --accent: 142 71% 45%;
-    --accent-foreground: 0 0% 100%;
-
-    /* Background Colors - Soft Sky */
-    --background: 204 100% 97%;
-    --foreground: 215 25% 27%;
-
-    /* Card Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
-
-    /* Popover Colors */
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
-
-    /* Muted Colors */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-
-    /* Destructive Colors */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    /* Border & Input */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
-
-    /* Border Radius */
-    --radius: 1rem;
+  html {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-text);
+    -webkit-text-size-adjust: 100%;
   }
 
-  .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 15%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 15%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 24 100% 60%;
-    --secondary-foreground: 222 47% 11%;
-    --accent: 142 76% 36%;
-    --accent-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 217 91% 60%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-weight: 700;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .on-deep :focus-visible {
+    outline-color: var(--focus-on-deep);
+  }
+
+  ::selection {
+    background: var(--pc-apricot);
+    color: var(--pc-ink);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 
-@layer utilities {
-  /* Playful animations for pet theme */
-  @keyframes bounce-soft {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+@layer components {
+  .page {
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
   }
 
-  @keyframes wiggle {
-    0%, 100% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(-5deg);
-    }
-    75% {
-      transform: rotate(5deg);
-    }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--tap);
+    padding: 0.625rem 1.375rem;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform var(--dur-exit) var(--ease-out), background-color var(--dur-exit) ease, box-shadow var(--dur-exit) ease;
   }
 
-  .animate-bounce-soft {
-    animation: bounce-soft 2s ease-in-out infinite;
+  .btn:active:not(:disabled) {
+    transform: scale(0.96);
   }
 
-  .animate-wiggle {
-    animation: wiggle 0.5s ease-in-out;
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
   }
 
-  .animation-delay-200 {
-    animation-delay: 200ms;
+  .btn-accent {
+    background: var(--accent);
+    color: var(--accent-ink);
   }
+
+  .btn-accent:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .btn-strong {
+    background: var(--pc-ink);
+    color: var(--pc-white);
+  }
+
+  .btn-strong:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--pc-ink) 85%, var(--pc-white));
+  }
+
+  .btn-quiet {
+    background: var(--surface-raised);
+    color: var(--heading);
+    box-shadow: inset 0 0 0 2px var(--rule);
+  }
+
+  .btn-quiet:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .btn-apricot {
+    background: var(--pc-apricot);
+    color: var(--pc-ink);
+  }
+
+  .btn-apricot:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--pc-apricot) 35%, transparent);
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    min-width: var(--tap);
+    min-height: var(--tap);
+    border-radius: var(--radius-pill);
+  }
+
+  .gloss {
+    display: none;
+  }
+
+  .frame {
+    border-radius: var(--radius-frame);
+    overflow: hidden;
+  }
+
+  .frame-sm {
+    border-radius: var(--radius-frame-sm);
+    overflow: hidden;
+  }
+
+  .field {
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.625rem 1rem;
+    border-radius: 1rem;
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--rule);
+    font: inherit;
+  }
+
+  .field[aria-invalid='true'] {
+    box-shadow: inset 0 0 0 2px var(--danger);
+  }
+
+  .skeleton {
+    background: linear-gradient(100deg, var(--surface-quiet) 30%, var(--pc-white) 50%, var(--surface-quiet) 70%);
+    background-size: 300% 100%;
+    animation: skeleton-sweep 1.5s ease-in-out infinite;
+    border-radius: 1rem;
+  }
+
+  .skeleton-deep {
+    background: color-mix(in srgb, var(--pc-ink) 12%, transparent);
+    border-radius: 1rem;
+  }
+
+  .price-tag {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--heading);
+  }
+
+  /* Engraved lettering on the metal tag. */
+  .engraved {
+    color: #36403F;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.7);
+  }
+
+  .card {
+    border-radius: var(--radius-frame);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-soft);
+  }
+}
+
+/* The tag swings on its ring: on hover or focus of its card, and when its item is added. */
+.tag-swing {
+  transform-origin: 50% 0.5rem;
+}
+
+.group:hover .tag-swing,
+.group:focus-within .tag-swing,
+.tag-swing[data-jingle] {
+  animation: jingle 900ms var(--ease-out);
+}
+
+@keyframes jingle {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(12deg);
+  }
+  35% {
+    transform: rotate(-9deg);
+  }
+  55% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Paw prints walk up to the cart when something is added. */
+.paw-step {
+  opacity: 0;
+  animation: paw-step 900ms var(--ease-out) both;
+}
+
+@keyframes paw-step {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.7);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes skeleton-sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes sheet-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay[data-state='open'] {
+  animation: fade-in var(--dur-enter) ease;
+}
+
+.sheet[data-state='open'] {
+  animation: sheet-in-up var(--dur-enter) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .sheet[data-state='open'] {
+    animation-name: sheet-in-right;
+  }
+}
+
+.dialog-pop[data-state='open'] {
+  animation: fade-in var(--dur-enter) var(--ease-out);
 }
