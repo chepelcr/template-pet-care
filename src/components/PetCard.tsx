@@ -18,12 +18,12 @@ export function PetCard({ item, category, sizes = '(min-width: 1024px) 17rem, (m
       <div className={`relative aspect-square overflow-hidden rounded-[1.375rem] bg-surface-quiet ${isPurchasable(item) ? '' : 'grayscale'}`}>
         <StoreImage src={item.imageUrl} alt="" sizes={sizes} maxWidth={720} fallback={<Placeholder />} />
         {item.kind === 'service' && (
-          <span className="absolute left-2.5 top-2.5 rounded-full bg-[color:var(--pc-apricot)] px-2.5 py-1 text-xs font-extrabold text-[color:var(--pc-ink)]">{t('product.service')}</span>
+          <span className="absolute bottom-2.5 left-2.5 rounded-full bg-[color:var(--pc-apricot)] px-2.5 py-1 text-xs font-extrabold text-[color:var(--pc-ink)]">{t('product.service')}</span>
         )}
       </div>
       <BoneTag price={item.price} jingle={jingle} className="pointer-events-none absolute right-3 top-0" />
       <div className="flex flex-1 flex-col gap-1 px-2 pb-1.5 pt-3">
-        {category && <p className="text-sm font-bold text-[color:var(--pc-kibble)]">{category.name}</p>}
+        {category && <p className="text-sm font-bold text-[color:var(--category-text)]">{category.name}</p>}
         <Heading className="text-lg leading-snug text-heading">
           <Link href={`/products/${item.id}`} className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none group-hover:underline">
             {item.name}
@@ -40,7 +40,7 @@ export function PetCard({ item, category, sizes = '(min-width: 1024px) 17rem, (m
               </s>
             </>
           )}
-          {item.percentOff !== null && <span className="ml-2 rounded-full bg-offer px-2 py-0.5 text-xs font-bold text-white">{t('product.percentOff', { percent: item.percentOff })}</span>}
+          {item.percentOff !== null && <span className="ml-2 rounded-full bg-offer px-2 py-0.5 text-xs font-bold text-[color:var(--offer-ink)]">{t('product.percentOff', { percent: item.percentOff })}</span>}
         </p>
         <div className="flex flex-wrap gap-x-3">
           <Availability item={item} showDuration={false} />

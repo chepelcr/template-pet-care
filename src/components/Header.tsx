@@ -1,10 +1,11 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Menu, ShoppingBag, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { useCart, useCartTotals, useIsDemo, useStore } from '@/core';
 import { useI18n } from '@/i18n';
 import { BASKET_EVENT } from './AddToCart';
+import { ThemeToggle } from './ThemeToggle';
 import { Paw } from './Paw';
 
 export const NAV = [
@@ -22,17 +23,17 @@ export function useIsActive() {
 function StoreMark() {
   const { organization, theme } = useStore();
   const logo = theme?.logoUrl ?? organization?.logoUrl ?? null;
-  if (!organization) return <span aria-hidden="true" className="skeleton block h-8 w-40" />;
+  if (!organization) return <span aria-hidden="true" className="skeleton block h-8 w-24 max-w-full" />;
   return (
-    <span className="flex items-center gap-2.5">
+    <span className="flex min-w-0 items-center gap-2">
       {logo ? (
-        <img src={logo} alt="" className="h-10 w-10 rounded-full object-cover" />
+        <img src={logo} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover sm:h-10 sm:w-10" />
       ) : (
-        <span aria-hidden="true" className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--pc-apricot)]">
+        <span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--pc-apricot)] sm:h-10 sm:w-10">
           <Paw className="h-6 w-6" />
         </span>
       )}
-      <span className="font-display text-xl font-extrabold leading-none sm:text-2xl">{organization.name}</span>
+      <span className="min-w-0 truncate font-display text-lg font-extrabold leading-none sm:text-2xl">{organization.name}</span>
     </span>
   );
 }
@@ -45,6 +46,7 @@ export function Header() {
   const isActive = useIsActive();
   const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const [adds, setAdds] = useState(0);
 
   useEffect(() => {
@@ -56,21 +58,21 @@ export function Header() {
   useEffect(() => setMenuOpen(false), [location]);
 
   return (
-    <header className="relative z-30 bg-surface-raised shadow-[0_1px_0_var(--rule)]">
+    <header ref={headerRef} className="relative z-30 bg-surface-raised shadow-[0_1px_0_var(--rule)]">
       {isDemo && <p className="bg-[color:var(--pc-apricot-soft)] px-4 py-1.5 text-center text-sm font-semibold text-[color:var(--pc-ink)]">{t('demo.notice')}</p>}
-      <div className="page flex h-16 items-center gap-3 sm:h-[4.5rem]">
-        <Link href="/" className="rounded-full py-1 pr-2 text-heading">
+      <div className="page flex h-14 items-center gap-2 sm:h-16">
+        <Link href="/" className="min-w-0 flex-1 rounded-full py-1 text-heading lg:max-w-[12rem] lg:flex-none">
           <StoreMark />
         </Link>
 
-        <nav aria-label={t('nav.primary')} className="ml-auto hidden md:block">
+        <nav aria-label={t('nav.primary')} className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-1">
             {NAV.map(({ href, key }) => (
               <li key={href}>
                 <Link
                   href={href}
                   aria-current={isActive(href) ? 'page' : undefined}
-                  className="flex min-h-tap items-center rounded-full px-4 font-bold text-ink-soft transition-colors hover:bg-surface hover:text-heading aria-[current=page]:bg-[color:var(--pc-teal-soft)] aria-[current=page]:text-[color:var(--pc-teal)]"
+                  className="flex min-h-tap items-center rounded-full px-3 font-bold text-ink-soft transition-colors hover:bg-surface hover:text-heading aria-[current=page]:bg-[color:var(--pc-teal-soft)] aria-[current=page]:text-[color:var(--pc-teal)]"
                 >
                   {t(key)}
                 </Link>
@@ -79,7 +81,9 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="relative ml-auto md:ml-4">
+        <ThemeToggle />
+
+        <div className="relative shrink-0">
           {adds > 0 && (
             <span key={adds} aria-hidden="true" className="pointer-events-none absolute -left-16 top-1/2 flex -translate-y-1/2 gap-1 text-[color:var(--pc-kibble)]">
               {[0, 1, 2].map((i) => (
@@ -89,10 +93,10 @@ export function Header() {
               ))}
             </span>
           )}
-          <button type="button" onClick={openCart} className="btn btn-accent gap-2.5 pl-4 pr-2">
+          <button type="button" onClick={openCart} className="btn btn-accent gap-1.5 px-2 lg:gap-2.5 lg:pl-4">
             <ShoppingBag aria-hidden="true" className="h-5 w-5" />
-            <span className="hidden sm:inline">{t('nav.cart')}</span>
-            <span aria-hidden="true" className="grid h-7 min-w-[1.75rem] place-items-center rounded-full bg-[color:var(--pc-apricot)] px-1.5 text-sm font-extrabold tabular-nums text-[color:var(--pc-ink)]">
+            <span className="hidden lg:inline">{t('nav.cart')}</span>
+            <span aria-hidden="true" className="grid h-6 min-w-[1.5rem] place-items-center rounded-full bg-[color:var(--pc-apricot)] px-1.5 text-sm font-extrabold tabular-nums text-[color:var(--pc-ink)]">
               {count}
             </span>
             <span className="sr-only">{plural('nav.cart.count', count)}</span>
@@ -100,30 +104,31 @@ export function Header() {
         </div>
 
         <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
-          <Dialog.Trigger className="icon-btn text-heading hover:bg-surface md:hidden" aria-label={t('nav.menu')}>
+          <Dialog.Trigger className="icon-btn shrink-0 text-heading hover:bg-surface lg:hidden" aria-label={t('nav.menu')}>
             <Menu aria-hidden="true" className="h-6 w-6" />
           </Dialog.Trigger>
-          <Dialog.Portal>
+          <Dialog.Portal container={headerRef.current}>
             <Dialog.Overlay className="overlay fixed inset-0 z-40 bg-[color:var(--scrim)]" />
-            <Dialog.Content className="sheet fixed inset-x-0 bottom-0 z-50 rounded-t-[2rem] bg-surface-raised px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5">
+            <Dialog.Content className="nav-menu fixed inset-x-0 top-0 z-50 max-h-dvh overflow-y-auto overscroll-contain rounded-b-2xl bg-surface-raised px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.5rem,env(safe-area-inset-top))] text-ink shadow-lift">
               <div className="flex items-center justify-between">
-                <Dialog.Title className="font-display text-2xl text-heading">{t('nav.menu')}</Dialog.Title>
+                <Dialog.Title className="font-display text-xl text-heading">{t('nav.menu')}</Dialog.Title>
                 <Dialog.Description className="sr-only">{t('nav.primary')}</Dialog.Description>
                 <Dialog.Close className="icon-btn -mr-2 text-heading hover:bg-surface" aria-label={t('nav.close')}>
                   <X aria-hidden="true" className="h-6 w-6" />
                 </Dialog.Close>
               </div>
-              <nav aria-label={t('nav.primary')} className="mt-3">
-                <ul className="flex flex-col gap-1.5">
+              <nav aria-label={t('nav.primary')} className="mt-1">
+                <ul className="flex flex-col gap-1">
                   {NAV.map(({ href, key }) => (
                     <li key={href}>
                       <Link
                         href={href}
+                        onClick={() => setMenuOpen(false)}
                         aria-current={isActive(href) ? 'page' : undefined}
-                        className="flex min-h-[3.25rem] items-center gap-3 rounded-2xl px-4 font-display text-xl font-bold text-heading aria-[current=page]:bg-[color:var(--pc-teal-soft)] aria-[current=page]:text-[color:var(--pc-teal)]"
+                        className="flex min-h-tap items-center gap-3 rounded-2xl px-3 font-display text-xl font-bold text-heading aria-[current=page]:bg-[color:var(--pc-teal-soft)] aria-[current=page]:text-[color:var(--pc-teal)]"
                       >
-                        {isActive(href) && <Paw className="h-5 w-5" />}
                         {t(key)}
+                        {isActive(href) && <Paw className="ml-auto h-5 w-5 shrink-0" />}
                       </Link>
                     </li>
                   ))}

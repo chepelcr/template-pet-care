@@ -53,7 +53,7 @@ function Refine({ params, setParams, facets, idPrefix, stacked }: { params: Cata
       )}
       {showsOfferFilter(facets) && (
         <label className="inline-flex min-h-tap cursor-pointer items-center gap-3 font-bold text-heading">
-          <input type="checkbox" className="h-5 w-5 accent-[color:var(--pc-teal)]" checked={params.sale} onChange={(e) => setParams({ sale: e.target.checked })} />
+          <input type="checkbox" className="h-5 w-5 accent-[color:var(--focus)]" checked={params.sale} onChange={(e) => setParams({ sale: e.target.checked })} />
           {t('catalog.offers')}
         </label>
       )}

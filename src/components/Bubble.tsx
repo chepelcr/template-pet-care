@@ -19,7 +19,7 @@ export function Bubble({ category, count, index }: { category: CatalogCategory; 
             alt=""
             sizes="8rem"
             maxWidth={400}
-            fallback={<span className="grid h-full w-full place-items-center font-display text-4xl font-extrabold text-[color:var(--pc-teal)]">{category.name.slice(0, 1)}</span>}
+            fallback={<span className="grid h-full w-full place-items-center font-display text-4xl font-extrabold text-heading">{category.name.slice(0, 1)}</span>}
           />
         </span>
       </span>
